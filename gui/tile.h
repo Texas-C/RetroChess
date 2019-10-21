@@ -25,7 +25,12 @@ public:
     const QWidget* getChessWindow() const;
 
     //Fields
-    int tileColor,piece,pieceColor,row,col,tileNum;
+    int tileColor;	// "background" 0(black) : 1(white)
+    int piece;		// 0(empty) : 1(piece occpied)
+    int pieceColor;	// 0(black) : 1(white)
+    int row,col;
+    int tileNum;	// index in one-division array
+
     char pieceName;
 
 private:

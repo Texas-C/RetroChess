@@ -1,7 +1,7 @@
 #ifndef RETROCHESSCHATWIDGETHOLDER_H
 #define RETROCHESSCHATWIDGETHOLDER_H
 
-#include "RetroChessChatWidgetHolder.h"
+// #include "RetroChessChatWidgetHolder.h"	// why include him self ?? (O.O;
 #include <gui/chat/ChatWidget.h>
 #include <gui/common/RsButtonOnText.h>
 #include <gui/RetroChessNotify.h>

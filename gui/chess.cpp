@@ -82,42 +82,9 @@ void RetroChessWindow::initAccessories()
     AvatarDefs::getAvatarFromSslId(p1id, p1avatar);
     m_ui->m_player1_avatar->setPixmap(p1avatar);//QPixmap(":/images/profile.png"));
 
-    AvatarDefs::getAvatarFromSslId(p2id, p1avatar);
-    m_ui->m_player2_avatar->setPixmap(p1avatar);//QPixmap(":/images/profile.png"));
-
-
-
-    /*
-    QWidget *baseWidget = this;
-    QLabel *player2 = new QLabel(baseWidget);
-    QLabel *name2 = new QLabel(p2name.c_str(), baseWidget);
-    QLabel *time2 = new QLabel("00:00:00", baseWidget);
-
-    QLabel *player1 = new QLabel(baseWidget);
-    QLabel *name1 = new QLabel(p1name.c_str(), baseWidget);
-    QLabel *time1 = new QLabel("00:00:00", baseWidget);
-
-    QLabel *moves = new QLabel(baseWidget);
-
-    name1->setGeometry(125,610,80,20);
-    time1->setGeometry(120,635,80,20);
-    player1->setGeometry(100,500,100,100);
-
-    QPixmap p1avatar;
-    AvatarDefs::getAvatarFromSslId(p1id, p1avatar);
-    player1->setPixmap(p1avatar);//QPixmap(":/images/profile.png"));
-
-
-    name2->setGeometry(125,210,80,20);
-    time2->setGeometry(120,235,80,20);
-    player2->setGeometry(100,100,100,100);
     QPixmap p2avatar;
     AvatarDefs::getAvatarFromSslId(p2id, p2avatar);
-    player2->setPixmap(p2avatar);//QPixmap(":/images/profile.png"));
-
-    moves->setGeometry(1000,105,250,550);
-    moves->setStyleSheet("QLabel {background-color: white;}");
-    */
+    m_ui->m_player2_avatar->setPixmap(p2avatar);//QPixmap(":/images/profile.png"));
 
     m_ui->m_move_record->setStyleSheet("QLabel {background-color: white;}");
 }
@@ -141,9 +108,10 @@ void RetroChessWindow::validate_tile(int row, int col, int c)
 void RetroChessWindow::initChessBoard()
 {
     //QWidget *baseWidget, Tile *tile[8][8]
-    //QWidget *baseWidget = this;
     QWidget *baseWidget = m_ui->m_chess_board;
-    int i,j,k=0,hor,ver;
+
+    int i,j,k = 0,hor,ver;
+
     Border *border[4] = { NULL };
 
     //borderDisplay (border size: 552 * 552)
@@ -155,12 +123,10 @@ void RetroChessWindow::initChessBoard()
     }
 
     //Create 64 tiles (allocating memories to the objects of Tile class)
-    //ver=125;
     ver = 20;
 
-    for(i=0; i<8; i++)
+    for(i = 0; i < 8; i++)
     {
-        //hor=350;
         hor = 20;
         for(j=0; j<8; j++)
         {

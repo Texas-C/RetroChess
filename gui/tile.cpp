@@ -83,6 +83,7 @@ void Tile::display(char elem)
 		this->clear();
 }
 
+// check single/double click
 void Tile::validate(int c)
 {
 	Tile *temp = this;

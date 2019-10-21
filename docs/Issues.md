@@ -7,3 +7,5 @@
 5. i can move friends chess figures not allow
 6. chess window is not realy optimized to big to much wasted spaces
 7. seems the timer doesnt works
+
+8. Move records not display(works)
