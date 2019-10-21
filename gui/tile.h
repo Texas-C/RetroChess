@@ -8,33 +8,33 @@
 class Tile: public QLabel
 {
 public:
-    //Constructors
+	//Constructors
 	Tile(QWidget* pParent=0, Qt::WindowFlags f=0);
 	Tile(const QString& text, QWidget* pParent = 0, Qt::WindowFlags f = 0);
 
-    //Methods
+	//Methods
 protected:
-    void mousePressEvent(QMouseEvent *event);
+	void mousePressEvent(QMouseEvent *event);
 
 public:
-    void display(char elem);
-    void tileDisplay();
-    void validate(int c);
+	void display(char elem);
+	void tileDisplay();
+	void validate(int c);
 
-    void setChessWindow( const QWidget *board);
-    const QWidget* getChessWindow() const;
+	void setChessWindow( QWidget *board);
+	QWidget* getChessWindow() const;
 
-    //Fields
-    int tileColor;	// "background" 0(black) : 1(white)
-    int piece;		// 0(empty) : 1(piece occpied)
-    int pieceColor;	// 0(black) : 1(white)
-    int row,col;
-    int tileNum;	// index in one-division array
+	//Fields
+	int tileColor;	// "background" 0(black) : 1(white)
+	int piece;		// 0(empty) : 1(piece occpied)
+	int pieceColor;	// 0(black) : 1(white)
+	int row,col;
+	int tileNum;	// index in one-division array
 
-    char pieceName;
+	char pieceName;
 
 private:
-    const QWidget *m_chess_window;	//parent board
+    QWidget *m_chess_window_p;	//parent board
 };
 
 void validate_tile(int row, int col, int c);

@@ -1,16 +1,14 @@
 #include "tile.h"
-#include "validation.h"
 #include "chess.h"
 #include "../interface/rsRetroChess.h"
-
-validation *valid = new validation();
 
 /*extern int count,turn;
 extern QWidget *myWidget;
 extern Tile *click1;
 extern Tile *tile[8][8];
 */
-void validate(Tile *temp,int c);
+
+void validate(Tile *tile_p,int c);
 void disOrange();
 
 Tile::Tile(QWidget* pParent, Qt::WindowFlags f) : QLabel(pParent, f)
@@ -21,9 +19,13 @@ Tile::Tile(const QString& text, QWidget* pParent, Qt::WindowFlags f) : QLabel(te
 
 void Tile::mousePressEvent(QMouseEvent *event)
 {
-    validate(++((RetroChessWindow*)m_chess_window)->count);
-    std::string peer_id = ((RetroChessWindow*)m_chess_window)->mPeerId;
-    rsRetroChess->chess_click(peer_id, this->row,this->col,((RetroChessWindow*)m_chess_window)->count);
+    RetroChessWindow *chess_window_p = dynamic_cast<RetroChessWindow*>(m_chess_window_p );
+
+    validate(++(chess_window_p)->count);
+    std::string peer_id = (chess_window_p)->mPeerId;
+    rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
+
+	QLabel::mousePressEvent( event );
 }
 
 void Tile::display(char elem)
@@ -86,80 +88,88 @@ void Tile::display(char elem)
 // check single/double click
 void Tile::validate(int c)
 {
-	Tile *temp = this;
+	Tile *tile_p = this;
+
 	int retValue,i;
 
-	if(c==1)
+    RetroChessWindow *chess_window_p = dynamic_cast< RetroChessWindow*> (m_chess_window_p );
+
+	// click 1
+	if(c == 1)
 	{
-        if(temp->piece && (temp->pieceColor==((RetroChessWindow*)m_chess_window)->turn))
+		// clicked current player's piece
+		if(tile_p->piece && (tile_p->pieceColor==(chess_window_p)->turn))
 		{
-			//texp[max++]=temp->tileNum;
-            retValue=((RetroChessWindow*)m_chess_window)->chooser(temp);
+			//texp[max++]=tile_p->tileNum;
+			retValue = (chess_window_p)->chooser(tile_p);	// paint piece's next availalbe position
 
 			if(retValue)
 			{
-                ((RetroChessWindow*)m_chess_window)->click1= new Tile();
-				temp->setStyleSheet("QLabel {background-color: green;}");
-                ((RetroChessWindow*)m_chess_window)->click1=temp;
+				(chess_window_p)->click1= new Tile();
+				tile_p->setStyleSheet("QLabel {background-color: green;}");
+				(chess_window_p)->click1=tile_p;
 			}
 			else
 			{
-				//temp->setStyleSheet("QLabel {background-color: red;}");
-                ((RetroChessWindow*)m_chess_window)->count=0;
+				//tile_p->setStyleSheet("QLabel {background-color: red;}");
+				(chess_window_p)->count=0;
 			}
 		}
+
+		// didn't clicked current player's piece
 		else
 		{
 			//qDebug()<<"Rascel, clicking anywhere";
-            ((RetroChessWindow*)m_chess_window)->count=0;
+			(chess_window_p)->count=0;
 		}
 	}
 
+	// click 0 or 2
 	else
 	{
 
-        if(temp->tileNum==((RetroChessWindow*)m_chess_window)->click1->tileNum)
+		if(tile_p->tileNum==(chess_window_p)->click1->tileNum)
 		{
-            ((RetroChessWindow*)m_chess_window)->click1->tileDisplay();
-            ((RetroChessWindow*)m_chess_window)->disOrange();
-            ((RetroChessWindow*)m_chess_window)->max=0;
-            ((RetroChessWindow*)m_chess_window)->count=0;
+			(chess_window_p)->click1->tileDisplay();
+			(chess_window_p)->disOrange();
+			(chess_window_p)->max=0;
+			(chess_window_p)->count=0;
 		}
 
-        for(i=0; i<((RetroChessWindow*)m_chess_window)->max; i++)
+		for(i=0; i<(chess_window_p)->max; i++)
 		{
-            if(temp->tileNum==((RetroChessWindow*)m_chess_window)->texp[i])
+			if(tile_p->tileNum==(chess_window_p)->texp[i])
 			{
-                ((RetroChessWindow*)m_chess_window)->click1->piece=0;
-				temp->piece=1;
+				(chess_window_p)->click1->piece=0;
+				tile_p->piece=1;
 
-                temp->pieceColor=((RetroChessWindow*)m_chess_window)->click1->pieceColor;
-                temp->pieceName=((RetroChessWindow*)m_chess_window)->click1->pieceName;
+				tile_p->pieceColor=(chess_window_p)->click1->pieceColor;
+				tile_p->pieceName=(chess_window_p)->click1->pieceName;
 
-                ((RetroChessWindow*)m_chess_window)->click1->display(((RetroChessWindow*)m_chess_window)->click1->pieceName);
-                temp->display(((RetroChessWindow*)m_chess_window)->click1->pieceName);
+				(chess_window_p)->click1->display((chess_window_p)->click1->pieceName);
+				tile_p->display((chess_window_p)->click1->pieceName);
 
-                ((RetroChessWindow*)m_chess_window)->click1->tileDisplay();
-				temp->tileDisplay();
+				(chess_window_p)->click1->tileDisplay();
+				tile_p->tileDisplay();
 
-                retValue=((RetroChessWindow*)m_chess_window)->check(((RetroChessWindow*)m_chess_window)->click1);
+				retValue=(chess_window_p)->check((chess_window_p)->click1);
 				/*
 				if(retValue)
 				{
-					tile[wR][wC]->setStyleSheet("QLabel {background-color: red;}");
+				    tile[wR][wC]->setStyleSheet("QLabel {background-color: red;}");
 				}
 				*/
 
-                ((RetroChessWindow*)m_chess_window)->disOrange();
+				(chess_window_p)->disOrange();
 
-                ((RetroChessWindow*)m_chess_window)->max=0;
+				(chess_window_p)->max=0;
 
-                ((RetroChessWindow*)m_chess_window)->turn=(((RetroChessWindow*)m_chess_window)->turn+1)%2;
-                ((RetroChessWindow*)m_chess_window)->count=0;
+				(chess_window_p)->turn=((chess_window_p)->turn+1)%2;
+				(chess_window_p)->count=0;
 			}
 
 			else
-                ((RetroChessWindow*)m_chess_window)->count=1;
+				(chess_window_p)->count=1;
 		}
 	}
 }
@@ -174,8 +184,12 @@ void Tile::tileDisplay()
 }
 
 
-void Tile::setChessWindow(const QWidget *board)
-{	m_chess_window = board;	}
+void Tile::setChessWindow(QWidget *board)
+{
+    m_chess_window_p = board;
+}
 
-const QWidget* Tile::getChessWindow() const
-{	return m_chess_window;	}
+QWidget* Tile::getChessWindow() const
+{
+    return m_chess_window_p;
+}

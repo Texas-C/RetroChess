@@ -65,61 +65,61 @@ const uint8_t QOS_PRIORITY_RS_RetroChess = 9 ;
 
 class RsRetroChessItem: public RsItem
 {
-	public:
-		RsRetroChessItem(uint8_t RetroChess_subtype)
-			: RsItem(RS_PKT_VERSION_SERVICE,RS_SERVICE_TYPE_RetroChess_PLUGIN,RetroChess_subtype)
-		{ 
-			setPriorityLevel(QOS_PRIORITY_RS_RetroChess) ;
-		}	
+public:
+	RsRetroChessItem(uint8_t RetroChess_subtype)
+		: RsItem(RS_PKT_VERSION_SERVICE,RS_SERVICE_TYPE_RetroChess_PLUGIN,RetroChess_subtype)
+	{
+		setPriorityLevel(QOS_PRIORITY_RS_RetroChess) ;
+	}
 
-		virtual ~RsRetroChessItem() {};
-		virtual void clear() {};
-		virtual std::ostream& print(std::ostream &out, uint16_t indent = 0) = 0 ;
+	virtual ~RsRetroChessItem() {};
+	virtual void clear() {};
+	virtual std::ostream& print(std::ostream &out, uint16_t indent = 0) = 0 ;
 
-		virtual bool serialise(void *data,uint32_t& size) = 0 ;	// Isn't it better that items can serialise themselves ?
-		virtual uint32_t serial_size() const = 0 ; 							// deserialise is handled using a constructor
+	virtual bool serialise(void *data,uint32_t& size) = 0 ;	// Isn't it better that items can serialise themselves ?
+	virtual uint32_t serial_size() const = 0 ; 							// deserialise is handled using a constructor
 };
 
 
 class RsRetroChessDataItem: public RsRetroChessItem
 {
-	public:
-		RsRetroChessDataItem() :RsRetroChessItem(RS_PKT_SUBTYPE_RetroChess_DATA) {}
-		RsRetroChessDataItem(void *data,uint32_t size) ; // de-serialization
+public:
+	RsRetroChessDataItem() :RsRetroChessItem(RS_PKT_SUBTYPE_RetroChess_DATA) {}
+	RsRetroChessDataItem(void *data,uint32_t size) ; // de-serialization
 
-		virtual bool serialise(void *data,uint32_t& size) ;
-		virtual uint32_t serial_size() const ; 							
+	virtual bool serialise(void *data,uint32_t& size) ;
+	virtual uint32_t serial_size() const ;
 
-		virtual ~RsRetroChessDataItem()
-		{
-		}
-		virtual std::ostream& print(std::ostream &out, uint16_t indent = 0);
+	virtual ~RsRetroChessDataItem()
+	{
+	}
+	virtual std::ostream& print(std::ostream &out, uint16_t indent = 0);
 
-		uint32_t flags ;
-		uint32_t data_size ;
-		std::string m_msg;
+	uint32_t flags ;
+	uint32_t data_size ;
+	std::string m_msg;
 };
 
 
 class RsRetroChessSerialiser: public RsSerialType
 {
-	public:
-		RsRetroChessSerialiser()
-			:RsSerialType(RS_PKT_VERSION_SERVICE, RS_SERVICE_TYPE_RetroChess_PLUGIN)
-		{ 
-		}
-		virtual ~RsRetroChessSerialiser() {}
+public:
+	RsRetroChessSerialiser()
+		:RsSerialType(RS_PKT_VERSION_SERVICE, RS_SERVICE_TYPE_RetroChess_PLUGIN)
+	{
+	}
+	virtual ~RsRetroChessSerialiser() {}
 
-		virtual uint32_t 	size (RsItem *item) 
-		{ 
-			return dynamic_cast<RsRetroChessItem *>(item)->serial_size() ;
-		}
+	virtual uint32_t 	size (RsItem *item)
+	{
+		return dynamic_cast<RsRetroChessItem *>(item)->serial_size() ;
+	}
 
-		virtual	bool serialise  (RsItem *item, void *data, uint32_t *size)
-		{ 
-			return dynamic_cast<RsRetroChessItem *>(item)->serialise(data,*size) ;
-		}
-		virtual	RsItem *deserialise(void *data, uint32_t *size);
+	virtual	bool serialise  (RsItem *item, void *data, uint32_t *size)
+	{
+		return dynamic_cast<RsRetroChessItem *>(item)->serialise(data,*size) ;
+	}
+	virtual	RsItem *deserialise(void *data, uint32_t *size);
 };
 
 /**************************************************************************/

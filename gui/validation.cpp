@@ -7,7 +7,7 @@
 
 validation::validation()
 {
-    //Nothing here
+	//Nothing here
 //    tile = ((RetroChessWindow*)parentWidget())->tile;
 
 }

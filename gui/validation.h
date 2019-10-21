@@ -6,10 +6,10 @@
 class validation
 {
 
-    int *tile;
+	int *tile;
 
 public:
-    validation();
+	validation();
 };
 
 #endif // VALIDATION_H

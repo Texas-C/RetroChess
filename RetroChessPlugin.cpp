@@ -53,13 +53,13 @@ extern "C" {
 		return (void*)p ;
 	}
 
-	// This symbol contains the svn revision number grabbed from the executable. 
+	// This symbol contains the svn revision number grabbed from the executable.
 	// It will be tested by RS to load the plugin automatically, since it is safe to load plugins
 	// with same revision numbers, assuming that the revision numbers are up-to-date.
 	//
 	uint32_t RETROSHARE_PLUGIN_revision = abs(atoi(RS_EXTRA_VERSION)) ;
 
-	// This symbol contains the svn revision number grabbed from the executable. 
+	// This symbol contains the svn revision number grabbed from the executable.
 	// It will be tested by RS to load the plugin automatically, since it is safe to load plugins
 	// with same revision numbers, assuming that the revision numbers are up-to-date.
 	//
@@ -89,7 +89,7 @@ RetroChessPlugin::RetroChessPlugin()
 
 void RetroChessPlugin::setInterfaces(RsPlugInInterfaces &interfaces)
 {
-    mPeers = interfaces.mPeers;
+	mPeers = interfaces.mPeers;
 }
 
 /*ConfigPage *RetroChessPlugin::qt_config_page() const
@@ -103,7 +103,7 @@ void RetroChessPlugin::setInterfaces(RsPlugInInterfaces &interfaces)
 QDialog *RetroChessPlugin::qt_about_page() const
 {
 	static QMessageBox *about_dialog = NULL ;
-	
+
 	if(about_dialog == NULL)
 	{
 		about_dialog = new QMessageBox() ;
@@ -126,7 +126,8 @@ QDialog *RetroChessPlugin::qt_about_page() const
 
 ChatWidgetHolder *RetroChessPlugin::qt_get_chat_widget_holder(ChatWidget *chatWidget) const
 {
-	switch (chatWidget->chatType()) {
+	switch (chatWidget->chatType())
+	{
 	case ChatWidget::CHATTYPE_PRIVATE:
 		return new RetroChessChatWidgetHolder(chatWidget, mRetroChessNotify);
 	case ChatWidget::CHATTYPE_UNKNOWN:
@@ -148,12 +149,13 @@ p3Service *RetroChessPlugin::p3_service() const
 
 void RetroChessPlugin::setPlugInHandler(RsPluginHandler *pgHandler)
 {
-    mPlugInHandler = pgHandler;
+	mPlugInHandler = pgHandler;
 }
 
 QIcon *RetroChessPlugin::qt_icon() const
 {
-	if (mIcon == NULL) {
+	if (mIcon == NULL)
+	{
 		Q_INIT_RESOURCE(RetroChess_images);
 
 		mIcon = new QIcon(IMAGE_RetroChess);
@@ -164,7 +166,8 @@ QIcon *RetroChessPlugin::qt_icon() const
 MainPage *RetroChessPlugin::qt_page() const
 {
 	// return chess game's main page here(which used for display)
-	if(mainpage == NULL){
+	if(mainpage == NULL)
+	{
 		mainpage = new NEMainpage(0, mRetroChessNotify);//mPeers, mFiles) ;
 		//tpage = new NEMainpage( );
 		//mainpage = tpage;

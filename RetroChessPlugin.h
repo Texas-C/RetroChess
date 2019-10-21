@@ -34,43 +34,49 @@ class RetroChessNotify ;
 
 class RetroChessPlugin: public RsPlugin
 {
-	public:
-		RetroChessPlugin() ;
-		virtual ~RetroChessPlugin() {}
+public:
+	RetroChessPlugin() ;
+	virtual ~RetroChessPlugin() {}
 
-		virtual p3Service      *p3_service() 			const	;
-		virtual uint16_t        rs_service_id()         const { return RS_SERVICE_TYPE_RetroChess_PLUGIN ; }
-		//virtual ConfigPage     *qt_config_page()        const ;
-		virtual QDialog        *qt_about_page()         const ;
-		virtual ChatWidgetHolder *qt_get_chat_widget_holder(ChatWidget *chatWidget) const ;
-		
-		virtual QIcon *qt_icon() const;
-		virtual QTranslator    *qt_translator(QApplication *app, const QString& languageCode, const QString& externalDir) const;
-		virtual void           qt_sound_events(SoundEvents &events) const;
+	virtual p3Service      *p3_service() 			const	;
+	virtual uint16_t        rs_service_id()         const
+	{
+		return RS_SERVICE_TYPE_RetroChess_PLUGIN ;
+	}
+	//virtual ConfigPage     *qt_config_page()        const ;
+	virtual QDialog        *qt_about_page()         const ;
+	virtual ChatWidgetHolder *qt_get_chat_widget_holder(ChatWidget *chatWidget) const ;
 
-		virtual void getPluginVersion(int& major, int& minor, int &build, int& svn_rev) const ;
-		virtual void setPlugInHandler(RsPluginHandler *pgHandler);
+	virtual QIcon *qt_icon() const;
+	virtual QTranslator    *qt_translator(QApplication *app, const QString& languageCode, const QString& externalDir) const;
+	virtual void           qt_sound_events(SoundEvents &events) const;
 
-		virtual std::string configurationFileName() const { return "RetroChess.cfg" ; }
+	virtual void getPluginVersion(int& major, int& minor, int &build, int& svn_rev) const ;
+	virtual void setPlugInHandler(RsPluginHandler *pgHandler);
 
-		virtual std::string getShortPluginDescription() const ;
-		virtual std::string getPluginName() const;
-		virtual void setInterfaces(RsPlugInInterfaces& interfaces);
+	virtual std::string configurationFileName() const
+	{
+		return "RetroChess.cfg" ;
+	}
 
-		//================================== RsPlugin Notify ==================================//
-		//virtual ToasterNotify *qt_toasterNotify();
+	virtual std::string getShortPluginDescription() const ;
+	virtual std::string getPluginName() const;
+	virtual void setInterfaces(RsPlugInInterfaces& interfaces);
 
-		virtual MainPage       *qt_page()       			const	;
+	//================================== RsPlugin Notify ==================================//
+	//virtual ToasterNotify *qt_toasterNotify();
 
-	private:
-		mutable p3RetroChess *mRetroChess ;
-		mutable RsPluginHandler *mPlugInHandler;
-		mutable RsPeers* mPeers;
-		mutable ConfigPage *config_page ;
-		mutable QIcon *mIcon;
-		mutable MainPage* mainpage ;
+	virtual MainPage       *qt_page()       			const	;
 
-		RetroChessNotify *mRetroChessNotify ;
-		RetroChessGUIHandler *mRetroChessGUIHandler ;
+private:
+	mutable p3RetroChess *mRetroChess ;
+	mutable RsPluginHandler *mPlugInHandler;
+	mutable RsPeers* mPeers;
+	mutable ConfigPage *config_page ;
+	mutable QIcon *mIcon;
+	mutable MainPage* mainpage ;
+
+	RetroChessNotify *mRetroChessNotify ;
+	RetroChessGUIHandler *mRetroChessGUIHandler ;
 };
 

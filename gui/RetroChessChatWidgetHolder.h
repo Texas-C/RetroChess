@@ -16,18 +16,18 @@ public:
 
 public slots:
 	void chessPressed();
-  void chessStart();
-  void chessnotify(RsPeerId from_peer_id);
+	void chessStart();
+	void chessnotify(RsPeerId from_peer_id);
 
 
 private slots:
 	void botMouseEnter();
-	void botMouseLeave();  
-	
+	void botMouseLeave();
+
 protected:
 	QToolButton *playChessButton ;
 	RetroChessNotify *mRetroChessNotify;
-	
+
 	typedef QMap<QString, RSButtonOnText*> button_map;
 	button_map buttonMapTakeChess;
 };

@@ -152,15 +152,16 @@ RsItem* RsRetroChessSerialiser::deserialise(void *data, uint32_t *pktsize)
 
 	if ((RS_PKT_VERSION_SERVICE != getRsItemVersion(rstype)) || (RS_SERVICE_TYPE_RetroChess_PLUGIN != getRsItemService(rstype)))
 		return NULL ;
-	
+
 	try
 	{
 		switch(getRsItemSubType(rstype))
 		{
-			case RS_PKT_SUBTYPE_RetroChess_DATA: 		return new RsRetroChessDataItem(data, *pktsize);
+		case RS_PKT_SUBTYPE_RetroChess_DATA:
+			return new RsRetroChessDataItem(data, *pktsize);
 
-			default:
-				return NULL;
+		default:
+			return NULL;
 		}
 	}
 	catch(std::exception& e)

@@ -54,15 +54,15 @@ static double getCurrentTS()
 {
 
 #ifndef WINDOWS_SYS
-        struct timeval cts_tmp;
-        gettimeofday(&cts_tmp, NULL);
-        double cts =  (cts_tmp.tv_sec) + ((double) cts_tmp.tv_usec) / 1000000.0;
+	struct timeval cts_tmp;
+	gettimeofday(&cts_tmp, NULL);
+	double cts =  (cts_tmp.tv_sec) + ((double) cts_tmp.tv_usec) / 1000000.0;
 #else
-        struct _timeb timebuf;
-        _ftime( &timebuf);
-        double cts =  (timebuf.time) + ((double) timebuf.millitm) / 1000.0;
+	struct _timeb timebuf;
+	_ftime( &timebuf);
+	double cts =  (timebuf.time) + ((double) timebuf.millitm) / 1000.0;
 #endif
-        return cts;
+	return cts;
 }
 
 static uint64_t convertTsTo64bits(double ts)
@@ -83,28 +83,28 @@ static double convert64bitsToTs(uint64_t bits)
 }
 
 p3RetroChess::p3RetroChess(RsPluginHandler *handler,RetroChessNotify *notifier)
-	 : RsPQIService(RS_SERVICE_TYPE_RetroChess_PLUGIN,0,handler), mRetroChessMtx("p3RetroChess"), mServiceControl(handler->getServiceControl()) , mNotify(notifier)
+	: RsPQIService(RS_SERVICE_TYPE_RetroChess_PLUGIN,0,handler), mRetroChessMtx("p3RetroChess"), mServiceControl(handler->getServiceControl()), mNotify(notifier)
 {
 	addSerialType(new RsRetroChessSerialiser());
 
 
-		//plugin default configuration
+	//plugin default configuration
 
 }
 RsServiceInfo p3RetroChess::getServiceInfo()
 {
 	const std::string TURTLE_APP_NAME = "RetroChess";
-    const uint16_t TURTLE_APP_MAJOR_VERSION  =       1;
-    const uint16_t TURTLE_APP_MINOR_VERSION  =       0;
-    const uint16_t TURTLE_MIN_MAJOR_VERSION  =       1;
-    const uint16_t TURTLE_MIN_MINOR_VERSION  =       0;
+	const uint16_t TURTLE_APP_MAJOR_VERSION  =       1;
+	const uint16_t TURTLE_APP_MINOR_VERSION  =       0;
+	const uint16_t TURTLE_MIN_MAJOR_VERSION  =       1;
+	const uint16_t TURTLE_MIN_MINOR_VERSION  =       0;
 
 	return RsServiceInfo(RS_SERVICE_TYPE_RetroChess_PLUGIN,
-                         TURTLE_APP_NAME,
-                         TURTLE_APP_MAJOR_VERSION,
-                         TURTLE_APP_MINOR_VERSION,
-                         TURTLE_MIN_MAJOR_VERSION,
-                         TURTLE_MIN_MINOR_VERSION);
+	                     TURTLE_APP_NAME,
+	                     TURTLE_APP_MAJOR_VERSION,
+	                     TURTLE_APP_MINOR_VERSION,
+	                     TURTLE_MIN_MAJOR_VERSION,
+	                     TURTLE_MIN_MINOR_VERSION);
 }
 
 int	p3RetroChess::tick()
@@ -124,7 +124,8 @@ int	p3RetroChess::status()
 	return 1;
 }
 #include<qjsondocument.h>
-void p3RetroChess::str_msg_peer(RsPeerId peerID, QString strdata){
+void p3RetroChess::str_msg_peer(RsPeerId peerID, QString strdata)
+{
 	QVariantMap map;
 	map.insert("type", "chat");
 	map.insert("message", strdata);
@@ -132,7 +133,8 @@ void p3RetroChess::str_msg_peer(RsPeerId peerID, QString strdata){
 	qvm_msg_peer(peerID,map);
 }
 
-void p3RetroChess::qvm_msg_peer(RsPeerId peerID, QVariantMap data){
+void p3RetroChess::qvm_msg_peer(RsPeerId peerID, QVariantMap data)
+{
 	QJsonDocument jsondoc = QJsonDocument::fromVariant(data);
 	std::string msg = jsondoc.toJson().toStdString();
 	raw_msg_peer(peerID, msg);
@@ -163,12 +165,14 @@ bool p3RetroChess::hasInviteTo(RsPeerId peerID)
 void p3RetroChess::acceptedInvite(RsPeerId peerID)
 {
 	std::set<RsPeerId>::iterator it =invitesTo.find(peerID);
-	if (it != invitesTo.end()){
+	if (it != invitesTo.end())
+	{
 		invitesTo.erase(it);
 	}
 
 	it =invitesFrom.find(peerID);
-	if (it != invitesFrom.end()){
+	if (it != invitesFrom.end())
+	{
 		invitesFrom.erase(it);
 	}
 	raw_msg_peer(peerID, "{\"type\":\"chess_accept\"}");
@@ -178,7 +182,8 @@ void p3RetroChess::gotInvite(RsPeerId peerID)
 {
 
 	std::set<RsPeerId>::iterator it =invitesFrom.find(peerID);
-	if (it == invitesFrom.end()){
+	if (it == invitesFrom.end())
+	{
 		invitesFrom.insert(peerID);
 	}
 }
@@ -186,7 +191,8 @@ void p3RetroChess::sendInvite(RsPeerId peerID)
 {
 
 	std::set<RsPeerId>::iterator it =invitesTo.find(peerID);
-	if (it == invitesTo.end()){
+	if (it == invitesTo.end())
+	{
 		invitesTo.insert(peerID);
 	}
 	raw_msg_peer(peerID, "{\"type\":\"chess_invite\"}");
@@ -196,29 +202,31 @@ void p3RetroChess::sendInvite(RsPeerId peerID)
 {
 	mPeerID = peer;
 }*/
-void p3RetroChess::raw_msg_peer(RsPeerId peerID, std::string msg){
+void p3RetroChess::raw_msg_peer(RsPeerId peerID, std::string msg)
+{
 	std::cout << "MSging: " << peerID.toStdString() << "\n";
 	std::cout << "MSging: " << msg << "\n";
-		/* create the packet */
-		RsRetroChessDataItem *pingPkt = new RsRetroChessDataItem();
-		pingPkt->PeerId(peerID);
-		pingPkt->m_msg = msg;
-		pingPkt->data_size = msg.size();
-		//pingPkt->mSeqNo = mCounter;
-		//pingPkt->mPingTS = convertTsTo64bits(ts);
+	/* create the packet */
+	RsRetroChessDataItem *pingPkt = new RsRetroChessDataItem();
+	pingPkt->PeerId(peerID);
+	pingPkt->m_msg = msg;
+	pingPkt->data_size = msg.size();
+	//pingPkt->mSeqNo = mCounter;
+	//pingPkt->mPingTS = convertTsTo64bits(ts);
 
-		//storePingAttempt(*it, ts, mCounter);
+	//storePingAttempt(*it, ts, mCounter);
 
 #ifdef DEBUG_RetroChess
-		std::cerr << "p3RetroChess::msg_all() With Packet:";
-		std::cerr << std::endl;
-		pingPkt->print(std::cerr, 10);
+	std::cerr << "p3RetroChess::msg_all() With Packet:";
+	std::cerr << std::endl;
+	pingPkt->print(std::cerr, 10);
 #endif
 
-		sendItem(pingPkt);
+	sendItem(pingPkt);
 }
 
-void p3RetroChess::msg_all(std::string msg){
+void p3RetroChess::msg_all(std::string msg)
+{
 	/* we ping our peers */
 	//if(!mServiceControl)
 	//    return ;
@@ -244,7 +252,8 @@ void p3RetroChess::msg_all(std::string msg){
 	}
 }
 
-void p3RetroChess::ping_all(){
+void p3RetroChess::ping_all()
+{
 	//TODO ping all!
 }
 
@@ -297,28 +306,28 @@ bool	p3RetroChess::recvItem(RsItem *item)
 
 	switch(item->PacketSubType())
 	{
-		case RS_PKT_SUBTYPE_RetroChess_DATA:
-			handleData(dynamic_cast<RsRetroChessDataItem*>(item));
-			keep = true ;
-			break;
-		/*case RS_PKT_SUBTYPE_RetroChess_INVITE:
-			if (invites.find(item->PeerId()!=invites.end())){
-				invites.insert(item->PeerId());
-			}
-			mNotify->
+	case RS_PKT_SUBTYPE_RetroChess_DATA:
+		handleData(dynamic_cast<RsRetroChessDataItem*>(item));
+		keep = true ;
+		break;
+	/*case RS_PKT_SUBTYPE_RetroChess_INVITE:
+		if (invites.find(item->PeerId()!=invites.end())){
+			invites.insert(item->PeerId());
+		}
+		mNotify->
 
-			//keep = true ;
-			break;*/
+		//keep = true ;
+		break;*/
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	/* clean up */
 	if(!keep)
 		delete item;
 	return true ;
-} 
+}
 
 
 
@@ -360,7 +369,7 @@ bool p3RetroChess::saveList(bool& cleanup, std::list<RsItem*>& lst)
 }
 bool p3RetroChess::loadList(std::list<RsItem*>& load)
 {
-	for(std::list<RsItem*>::const_iterator it(load.begin());it!=load.end();++it)
+	for(std::list<RsItem*>::const_iterator it(load.begin()); it!=load.end(); ++it)
 	{
 #ifdef P3TURTLE_DEBUG
 		assert(item!=NULL) ;
@@ -368,7 +377,7 @@ bool p3RetroChess::loadList(std::list<RsItem*>& load)
 		RsConfigKeyValueSet *vitem = dynamic_cast<RsConfigKeyValueSet*>(*it) ;
 		/*
 		if(vitem != NULL)
-			for(std::list<RsTlvKeyValue>::const_iterator kit = vitem->tlvkvs.pairs.begin(); kit != vitem->tlvkvs.pairs.end(); ++kit) 
+			for(std::list<RsTlvKeyValue>::const_iterator kit = vitem->tlvkvs.pairs.begin(); kit != vitem->tlvkvs.pairs.end(); ++kit)
 				if(kit->key == "P3RetroChess_CONFIG_ATRANSMIT")
 					_atransmit = pop_int_value(kit->value) ;
 				else if(kit->key == "P3RetroChess_CONFIG_VOICEHOLD")
@@ -385,7 +394,7 @@ bool p3RetroChess::loadList(std::list<RsItem*>& load)
 					_echo_cancel = pop_int_value(kit->value) ;
 
 		delete vitem ;
-	*/
+		*/
 	}
 
 	return true ;

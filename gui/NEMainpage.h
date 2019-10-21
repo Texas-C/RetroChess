@@ -20,7 +20,8 @@
 
 class QAction;
 
-namespace Ui {
+namespace Ui
+{
 class NEMainpage;
 }
 
@@ -33,8 +34,8 @@ public:
 	~NEMainpage();
 
 private slots:
-  void setupMenuActions();
-  void friendSelectionChanged();
+	void setupMenuActions();
+	void friendSelectionChanged();
 	void on_pingAllButton_clicked();
 	void NeMsgArrived(const RsPeerId &peer_id, QString str);
 	void chessStart(const RsPeerId &peer_id);
