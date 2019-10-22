@@ -98,7 +98,10 @@ void Tile::validate_send(int c)
 
     // not local player's turn. So control unavailable now.
     if((chess_window_p)->m_localplayer_turn != (chess_window_p)->turn)
+    {
+        (chess_window_p)->count = 0;
         return;
+    }
 
 	// click 1
 	if(c == 1)
