@@ -2,7 +2,7 @@
 
 ## Now:
 1. modify gui: Tile(convert to QGraphicsItem), ChessBoard as QGraphicsView
-2. basic function( game playing with peerid)
+2. basic function( game playing with peerid) __(basic function implemented)__
 3. "invite" function
 4. gxs play( play with other user in firends' network) (gxsid & gxstunnel)
 

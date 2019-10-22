@@ -22,76 +22,79 @@ void Tile::mousePressEvent(QMouseEvent *event)
     RetroChessWindow *chess_window_p = dynamic_cast<RetroChessWindow*>(m_chess_window_p );
     std::string peer_id = (chess_window_p)->mPeerId;
 
-    // local player's turn
-    if((chess_window_p)->m_localplayer_turn == (chess_window_p)->turn)
+    if( (chess_window_p)->m_flag_finished == 0)	// not finish yet
     {
-        validate( ++(chess_window_p)->count );
-        rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
-    }
-    // not local player's turn
-    else
-    {
-        (chess_window_p)->count = 0;
+        // local player's turn
+        if((chess_window_p)->m_localplayer_turn == (chess_window_p)->turn)
+        {
+            validate( ++(chess_window_p)->count );
+            rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
+        }
+        // not local player's turn
+        else
+        {
+            (chess_window_p)->count = 0;
+        }
     }
 
-	QLabel::mousePressEvent( event );
+    QLabel::mousePressEvent( event );
 }
 
 void Tile::display(char elem)
 {
-	this->pieceName=elem;
+    this->pieceName=elem;
 
-	if(this->pieceColor && this->piece)
-	{
-		switch(elem)
-		{
-		case 'P':
-			this->setPixmap(QPixmap(":/images/pawn_white.svg"));
-			break;
-		case 'R':
-			this->setPixmap(QPixmap(":/images/rook_white.svg"));
-			break;
-		case 'H':
-			this->setPixmap(QPixmap(":/images/knight_white.svg"));
-			break;
-		case 'K':
-			this->setPixmap(QPixmap(":/images/king_white.svg"));
-			break;
-		case 'Q':
-			this->setPixmap(QPixmap(":/images/queen_white.svg"));
-			break;
-		case 'B':
-			this->setPixmap(QPixmap(":/images/bishop_white.svg"));
-			break;
-		}
-	}
+    if(this->pieceColor && this->piece)
+    {
+        switch(elem)
+        {
+        case 'P':
+            this->setPixmap(QPixmap(":/images/pawn_white.svg"));
+            break;
+        case 'R':
+            this->setPixmap(QPixmap(":/images/rook_white.svg"));
+            break;
+        case 'H':
+            this->setPixmap(QPixmap(":/images/knight_white.svg"));
+            break;
+        case 'K':
+            this->setPixmap(QPixmap(":/images/king_white.svg"));
+            break;
+        case 'Q':
+            this->setPixmap(QPixmap(":/images/queen_white.svg"));
+            break;
+        case 'B':
+            this->setPixmap(QPixmap(":/images/bishop_white.svg"));
+            break;
+        }
+    }
 
-	else if(this->piece)
-	{
-		switch(elem)
-		{
-		case 'P':
-			this->setPixmap(QPixmap(":/images/pawn_black.svg"));
-			break;
-		case 'R':
-			this->setPixmap(QPixmap(":/images/rook_black.svg"));
-			break;
-		case 'H':
-			this->setPixmap(QPixmap(":/images/knight_black.svg"));
-			break;
-		case 'K':
-			this->setPixmap(QPixmap(":/images/king_black.svg"));
-			break;
-		case 'Q':
-			this->setPixmap(QPixmap(":/images/queen_black.svg"));
-			break;
-		case 'B':
-			this->setPixmap(QPixmap(":/images/bishop_black.svg"));
-			break;
-		}
-	}
-	else
-		this->clear();
+    else if(this->piece)
+    {
+        switch(elem)
+        {
+        case 'P':
+            this->setPixmap(QPixmap(":/images/pawn_black.svg"));
+            break;
+        case 'R':
+            this->setPixmap(QPixmap(":/images/rook_black.svg"));
+            break;
+        case 'H':
+            this->setPixmap(QPixmap(":/images/knight_black.svg"));
+            break;
+        case 'K':
+            this->setPixmap(QPixmap(":/images/king_black.svg"));
+            break;
+        case 'Q':
+            this->setPixmap(QPixmap(":/images/queen_black.svg"));
+            break;
+        case 'B':
+            this->setPixmap(QPixmap(":/images/bishop_black.svg"));
+            break;
+        }
+    }
+    else
+        this->clear();
 }
 
 // check click
@@ -181,15 +184,17 @@ void Tile::validate(int c)
                 (chess_window_p)->count=1;
         }
     }
+
+    (chess_window_p)->m_flag_finished = (chess_window_p)->resultJudge();
 }
 
 void Tile::tileDisplay()
 {
 
-	if(this->tileColor)
-		this->setStyleSheet("QLabel {background-color: rgb(120, 120, 90);}:hover{background-color: rgb(170,85,127);}");
-	else
-		this->setStyleSheet("QLabel {background-color: rgb(211, 211, 158);}:hover{background-color: rgb(170,95,127);}");
+    if(this->tileColor)
+        this->setStyleSheet("QLabel {background-color: rgb(120, 120, 90);}:hover{background-color: rgb(170,85,127);}");
+    else
+        this->setStyleSheet("QLabel {background-color: rgb(211, 211, 158);}:hover{background-color: rgb(170,95,127);}");
 }
 
 

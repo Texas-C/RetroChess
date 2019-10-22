@@ -46,6 +46,7 @@ public:
     int m_localplayer_turn;	// record local player's character (0: black / 1: white)
 	int max;
 	int *texp;
+    int m_flag_finished;	// finish flag: (0: not finish / non-zero: finished)
 
 	void disOrange();
 	void validate_tile(int row, int col, int c);
@@ -60,6 +61,8 @@ public:
 	int validatePawn(Tile *temp);
 	void orange();	// draw orange background represent avaiable movement of tiles
 	int check(Tile *temp);
+
+    int resultJudge();	// judge result (slow method)
 };
 
 

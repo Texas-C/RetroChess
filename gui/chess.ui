@@ -66,14 +66,14 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="2" column="0">
-           <widget class="QLabel" name="m_player2_name">
+          <item row="5" column="0">
+           <widget class="QLabel" name="m_player2_result">
             <property name="text">
-             <string>Player2</string>
+             <string>m_player2_result</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
+          <item row="2" column="0" colspan="2">
            <widget class="QLabel" name="m_player2_avatar">
             <property name="text">
              <string>Player2_avatar</string>
@@ -81,9 +81,29 @@
            </widget>
           </item>
           <item row="3" column="0">
+           <widget class="QLabel" name="m_player2_name">
+            <property name="text">
+             <string>Player2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
            <widget class="QLabel" name="m_player2_time">
             <property name="text">
              <string>m_player2_time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="m_white_title">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>White:</string>
             </property>
            </widget>
           </item>
@@ -99,24 +119,44 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="m_player1_name">
             <property name="text">
              <string>Player1</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="2">
+          <item row="3" column="0">
+           <widget class="QLabel" name="m_player1_time">
+            <property name="text">
+             <string>m_player1_time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="m_player1_result">
+            <property name="text">
+             <string>m_player1_result</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
            <widget class="QLabel" name="m_player1_avatar">
             <property name="text">
              <string>Player1_avatar</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="m_player1_time">
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_black_title">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>m_player1_time</string>
+             <string>Black:</string>
             </property>
            </widget>
           </item>

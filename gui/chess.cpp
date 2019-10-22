@@ -12,12 +12,17 @@ RetroChessWindow::RetroChessWindow(std::string peerid, int player, QWidget *pare
 	//ui(new Ui::RetroChessWindow)
 {
 	m_ui->setupUi( this );
+    m_ui->m_player1_result->hide();
+    m_ui->m_player2_result->hide();
+
+    m_flag_finished = 0;	// set as unfinish
 
 	//tile = { { NULL } };
 	count=0;
     turn=1;	// white first
 	max=0;
 	texp = new int[60];
+
 	setGeometry(0,0,1370,700);
 
 	QString player_str;
@@ -877,4 +882,56 @@ void RetroChessWindow::orange()
 
 	for(i=0; i<max; i++)
 		tile[texp[i]/8][texp[i]%8]->setStyleSheet("QLabel {background-color: orange;}");
+}
+
+// judge result (slow method)
+// 0: not finish yet
+// 1: black win
+// 2: white win
+int RetroChessWindow::resultJudge()
+{
+    bool flag_white_king_alive = false;
+    bool flag_black_king_alive = false;
+    for(int i = 0; i < 8; ++i)
+    {
+        for(int j = 0; j < 8; ++j)
+        {
+            if( tile[i][j]->piece)
+            {
+                if( tile[i][j]->pieceName == 'K' && tile[i][j]->pieceColor == 0)
+                    flag_black_king_alive = true;
+                else if( tile[i][j]->pieceName == 'K' && tile[i][j]->pieceColor == 1)
+                    flag_white_king_alive = true;
+            }
+        }
+    }
+
+
+    if ( flag_white_king_alive == false)
+    {
+
+        m_ui->m_player1_result->setText("Win");
+        m_ui->m_player1_result->setStyleSheet("QLabel {color: green;}");
+
+        m_ui->m_player2_result->setText("Defeat");
+        m_ui->m_player2_result->setStyleSheet("QLabel {color: red;}");
+
+        m_ui->m_player1_result->setVisible(true);
+        m_ui->m_player2_result->setVisible(true);
+        return 1;
+    }
+    else if( flag_black_king_alive == false)
+    {
+        m_ui->m_player1_result->setText("Defeat");
+        m_ui->m_player1_result->setStyleSheet("QLabel {color: red;}");
+
+        m_ui->m_player2_result->setText("Win");
+        m_ui->m_player2_result->setStyleSheet("QLabel {color: green;}");
+
+        m_ui->m_player1_result->setVisible(true);
+        m_ui->m_player2_result->setVisible(true);
+        return 2;
+    }
+    else
+        return 0;
 }
