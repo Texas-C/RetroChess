@@ -42,7 +42,8 @@ public:
 	Tile *tile[8][8];
 
 	int count;	// click counter
-	int turn;	// player turn
+    int turn;	// player turn (0: black turn / 1: white turn)
+    int m_localplayer_turn;	// record local player's character (0: black / 1: white)
 	int max;
 	int *texp;
 

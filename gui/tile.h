@@ -19,7 +19,8 @@ protected:
 public:
 	void display(char elem);
 	void tileDisplay();
-	void validate(int c);
+    void validate_send(int c);	// send
+    void validate(int c);		// normal check(for sync)
 
 	void setChessWindow( QWidget *board);
 	QWidget* getChessWindow() const;

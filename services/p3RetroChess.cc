@@ -408,13 +408,3 @@ RsSerialiser *p3RetroChess::setupSerialiser()
 
 	return rsSerialiser ;
 }
-
-
-
-
-
-
-
-
-
-

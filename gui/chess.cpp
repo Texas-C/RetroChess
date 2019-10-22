@@ -15,24 +15,28 @@ RetroChessWindow::RetroChessWindow(std::string peerid, int player, QWidget *pare
 
 	//tile = { { NULL } };
 	count=0;
-	turn=1;
+    turn=1;	// white first
 	max=0;
 	texp = new int[60];
 	setGeometry(0,0,1370,700);
 
 	QString player_str;
-	if (player )
+    if (player )	// local player as black
 	{
 		p1id = rsPeers->getOwnId();
 		p2id = RsPeerId(peerid);
 		player_str = " (1)";
+
+        m_localplayer_turn = 0;
 	}
-	else
+    else	// local player as white
 	{
 		p1id = RsPeerId(peerid);
 		p2id = rsPeers->getOwnId();
 		player_str = " (2)";
-	}
+
+        m_localplayer_turn = 1;
+    }
 
 	p1name = rsPeers->getPeerName(p1id);
 	p2name = rsPeers->getPeerName(p2id);
