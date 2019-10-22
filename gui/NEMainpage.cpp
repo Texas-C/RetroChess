@@ -136,6 +136,7 @@ void NEMainpage::create_chess_window(std::string peer_id, int player_id)
 	ui->active_games->addItem(QString::fromStdString(peer_id));
 }
 
+/*
 void NEMainpage::on_playButton_clicked()
 {
 	//get peer
@@ -151,6 +152,7 @@ void NEMainpage::on_playButton_clicked()
 
 	std::cout << fid;
 }
+*/
 
 void NEMainpage::on_filterPeersButton_clicked()
 {

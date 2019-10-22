@@ -124,7 +124,7 @@ void Tile::validate(int c)
 		}
 	}
 
-	// click 0 or 2
+    // click 0 or 2 times
 	else
 	{
 

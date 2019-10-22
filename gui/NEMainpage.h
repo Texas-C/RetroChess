@@ -42,7 +42,8 @@ private slots:
 
 	void on_broadcastButton_clicked();
 
-	void on_playButton_clicked();
+    //--- removed playbutton
+    //void on_playButton_clicked();
 
 	void on_filterPeersButton_clicked();
 
