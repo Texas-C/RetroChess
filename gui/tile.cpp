@@ -20,10 +20,19 @@ Tile::Tile(const QString& text, QWidget* pParent, Qt::WindowFlags f) : QLabel(te
 void Tile::mousePressEvent(QMouseEvent *event)
 {
     RetroChessWindow *chess_window_p = dynamic_cast<RetroChessWindow*>(m_chess_window_p );
+    std::string peer_id = (chess_window_p)->mPeerId;
 
-    validate_send( ++(chess_window_p)->count );
-    //std::string peer_id = (chess_window_p)->mPeerId;
-    //rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
+    // local player's turn
+    if((chess_window_p)->m_localplayer_turn == (chess_window_p)->turn)
+    {
+        validate( ++(chess_window_p)->count );
+        rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
+    }
+    // not local player's turn
+    else
+    {
+        (chess_window_p)->count = 0;
+    }
 
 	QLabel::mousePressEvent( event );
 }
@@ -85,111 +94,7 @@ void Tile::display(char elem)
 		this->clear();
 }
 
-// check single/double click
-void Tile::validate_send(int c)
-{
-	Tile *tile_p = this;
-
-	int retValue,i;
-
-    RetroChessWindow *chess_window_p = dynamic_cast< RetroChessWindow*> (m_chess_window_p );
-
-    std::string peer_id = (chess_window_p)->mPeerId;
-
-    // not local player's turn. So control unavailable now.
-    if((chess_window_p)->m_localplayer_turn != (chess_window_p)->turn)
-    {
-        (chess_window_p)->count = 0;
-        return;
-    }
-
-	// click 1
-	if(c == 1)
-	{
-		// clicked current player's piece
-        if(tile_p->piece && (tile_p->pieceColor==(chess_window_p)->turn))
-		{
-			//texp[max++]=tile_p->tileNum;
-			retValue = (chess_window_p)->chooser(tile_p);	// paint piece's next availalbe position
-
-			if(retValue)
-			{
-				(chess_window_p)->click1= new Tile();
-				tile_p->setStyleSheet("QLabel {background-color: green;}");
-				(chess_window_p)->click1=tile_p;
-
-                // send click
-                rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
-            }
-			else
-			{
-				//tile_p->setStyleSheet("QLabel {background-color: red;}");
-				(chess_window_p)->count=0;
-			}
-		}
-
-		// didn't clicked current player's piece
-		else
-		{
-			//qDebug()<<"Rascel, clicking anywhere";
-			(chess_window_p)->count=0;
-		}
-	}
-
-    // click 0 or 2 times(piece moved)
-	else
-	{
-
-		if(tile_p->tileNum==(chess_window_p)->click1->tileNum)
-		{
-			(chess_window_p)->click1->tileDisplay();
-			(chess_window_p)->disOrange();
-			(chess_window_p)->max=0;
-			(chess_window_p)->count=0;
-		}
-
-		for(i=0; i<(chess_window_p)->max; i++)
-		{
-			if(tile_p->tileNum==(chess_window_p)->texp[i])
-			{
-				(chess_window_p)->click1->piece=0;
-				tile_p->piece=1;
-
-				tile_p->pieceColor=(chess_window_p)->click1->pieceColor;
-				tile_p->pieceName=(chess_window_p)->click1->pieceName;
-
-				(chess_window_p)->click1->display((chess_window_p)->click1->pieceName);
-				tile_p->display((chess_window_p)->click1->pieceName);
-
-				(chess_window_p)->click1->tileDisplay();
-				tile_p->tileDisplay();
-
-				retValue=(chess_window_p)->check((chess_window_p)->click1);
-				/*
-				if(retValue)
-				{
-				    tile[wR][wC]->setStyleSheet("QLabel {background-color: red;}");
-				}
-				*/
-
-				(chess_window_p)->disOrange();
-
-				(chess_window_p)->max=0;
-
-				(chess_window_p)->turn=((chess_window_p)->turn+1)%2;
-				(chess_window_p)->count=0;
-
-                // send click
-                rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
-            }
-
-			else
-				(chess_window_p)->count=1;
-		}
-	}
-}
-
-// orignal
+// check click
 void Tile::validate(int c)
 {
     Tile *tile_p = this;
@@ -197,8 +102,6 @@ void Tile::validate(int c)
     int retValue,i;
 
     RetroChessWindow *chess_window_p = dynamic_cast< RetroChessWindow*> (m_chess_window_p );
-
-    std::string peer_id = (chess_window_p)->mPeerId;
 
     // click 1
     if(c == 1)
