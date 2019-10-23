@@ -1,7 +1,7 @@
 #include "NEMainpage.h"
 #include "ui_NEMainpage.h"
 
-//#include "services/p3RetroChess.h"
+#include "services/p3RetroChess.h"
 #include "interface/rsRetroChess.h"
 #include "services/rsRetroChessItems.h"
 #include "retroshare/rsservicecontrol.h"
@@ -47,16 +47,8 @@ NEMainpage::~NEMainpage()
 	delete ui;
 }
 
-
-void NEMainpage::on_pingAllButton_clicked()
-{
-
-}
-
-
 void NEMainpage::chessStart(const RsPeerId &peer_id)
 {
-
 	create_chess_window(peer_id.toStdString(), 0);
 }
 
