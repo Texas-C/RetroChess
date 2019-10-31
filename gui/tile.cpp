@@ -31,10 +31,6 @@ void Tile::mousePressEvent(QMouseEvent *event)
             rsRetroChess->chess_click(peer_id, this->row,this->col,(chess_window_p)->count);
         }
         // not local player's turn
-        else
-        {
-            (chess_window_p)->count = 0;
-        }
     }
 
     QLabel::mousePressEvent( event );
