@@ -206,10 +206,10 @@ void Tile::pawnLevelupCheck()
     if( this->pieceName == 'P')
     {
         // white
-        if( this->tileColor && this->row == 0)
+        if( this->pieceColor && this->row == 0)
             this->display( 'Q' );
         // black
-        else if( this->tileColor == 0 && this->row == 7)
+        else if( this->pieceColor == 0 && this->row == 7)
             this->display( 'Q' );
     }
 }
