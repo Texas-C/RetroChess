@@ -868,6 +868,8 @@ int RetroChessWindow::validateBishop(Tile *tile_p)
 	return retVal;
 }
 
+// seems like "check" method is check "King"'s status in current situation. (alive or done)
+// for help player to make decition to keep "King" alive.
 int RetroChessWindow::check(Tile *tile_p)
 {
 	int r,c,flag;

@@ -150,6 +150,7 @@ void Tile::validate(int c)
 
         for(i=0; i<(chess_window_p)->max; i++)
         {
+            // next postion is valiad
             if(tile_p->tileNum==(chess_window_p)->texp[i])
             {
                 (chess_window_p)->click1->piece=0;
@@ -162,6 +163,7 @@ void Tile::validate(int c)
                 tile_p->display((chess_window_p)->click1->pieceName);
 
                 (chess_window_p)->click1->tileDisplay();
+                tile_p->pawnLevelupCheck();
                 tile_p->tileDisplay();
 
                 retValue=(chess_window_p)->check((chess_window_p)->click1);
@@ -178,8 +180,10 @@ void Tile::validate(int c)
 
                 (chess_window_p)->turn=((chess_window_p)->turn+1)%2;
                 (chess_window_p)->count=0;
-            }
 
+                break;
+            }
+            // next postion is invalid
             else
                 (chess_window_p)->count=1;
         }
@@ -195,6 +199,19 @@ void Tile::tileDisplay()
         this->setStyleSheet("QLabel {background-color: rgb(120, 120, 90);}:hover{background-color: rgb(170,85,127);}");
     else
         this->setStyleSheet("QLabel {background-color: rgb(211, 211, 158);}:hover{background-color: rgb(170,95,127);}");
+}
+
+void Tile::pawnLevelupCheck()
+{
+    if( this->pieceName == 'P')
+    {
+        // white
+        if( this->tileColor && this->row == 0)
+            this->display( 'Q' );
+        // black
+        else if( this->tileColor == 0 && this->row == 7)
+            this->display( 'Q' );
+    }
 }
 
 

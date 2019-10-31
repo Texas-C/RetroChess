@@ -19,8 +19,9 @@ protected:
 public:
 	void display(char elem);
 	void tileDisplay();
-    void validate_send(int c);	// send
     void validate(int c);		// normal check(for sync)
+
+    void pawnLevelupCheck();
 
 	void setChessWindow( QWidget *board);
 	QWidget* getChessWindow() const;
@@ -35,7 +36,7 @@ public:
 	char pieceName;
 
 private:
-    QWidget *m_chess_window_p;	//parent board
+    QWidget *m_chess_window_p;	//parent chess board
 };
 
 void validate_tile(int row, int col, int c);

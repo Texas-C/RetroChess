@@ -9,3 +9,4 @@
 7. seems the timer doesnt works
 
 8. Move records not display(works)
+9. "Accept" buttons issue on p2p chat dialog (click detection & not disappeare after clicked)
