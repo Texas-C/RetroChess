@@ -93,8 +93,9 @@ public:
 	void raw_msg_peer(RsPeerId peerID, std::string msg);
 	void 	qvm_msg_peer(RsPeerId peerID, QVariantMap data);
 
-	void chess_click(std::string peer_id, int col, int row, int count);
+    void chess_click(std::string peer_id, int col, int row, int count);
 	//void set_peer(RsPeerId peer);
+    void player_leave(std::string peer_id);
 
 	bool hasInviteFrom(RsPeerId peerID);
 	bool hasInviteTo(RsPeerId peerID);

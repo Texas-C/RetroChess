@@ -4,6 +4,7 @@
 #include "ui_chess.h"
 
 #include "gui/common/AvatarDefs.h"
+#include "../services/p3RetroChess.h"
 
 RetroChessWindow::RetroChessWindow(std::string peerid, int player, QWidget *parent) :
 	QWidget(parent),
@@ -14,6 +15,7 @@ RetroChessWindow::RetroChessWindow(std::string peerid, int player, QWidget *pare
 	m_ui->setupUi( this );
     m_ui->m_player1_result->hide();
     m_ui->m_player2_result->hide();
+    m_ui->m_status_bar->hide();
 
     m_flag_finished = 0;	// set as unfinish
 
@@ -96,6 +98,14 @@ void RetroChessWindow::initAccessories()
 	m_ui->m_player2_avatar->setPixmap(p2avatar);//QPixmap(":/images/profile.png"));
 
 	m_ui->m_move_record->setStyleSheet("QLabel {background-color: white;}");
+}
+
+void RetroChessWindow::closeEvent(QCloseEvent *event)
+{
+    // send leave message
+    rsRetroChess->player_leave(this->mPeerId);
+
+    QWidget::closeEvent(event);
 }
 
 void RetroChessWindow::disOrange()
@@ -936,4 +946,13 @@ int RetroChessWindow::resultJudge()
     }
     else
         return 0;
+}
+
+void RetroChessWindow::showPlayerLeaveMsg()
+{
+    std::string player_name = rsPeers->getPeerName( RsPeerId(mPeerId ));
+    QString status_msg(player_name.c_str());
+    status_msg += " has left";
+    m_ui->m_status_bar->setText( status_msg );
+    m_ui->m_status_bar->setVisible(true);
 }

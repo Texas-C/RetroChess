@@ -76,6 +76,15 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
 		RetroChessWindow* rcw = activeGames.value(peer_id.toStdString());
 		rcw->validate_tile(row,col,count);
 	}
+    else if(type == "player_status_message")
+    {
+        // show player left message
+        RetroChessWindow* rcw = activeGames.value(peer_id.toStdString());
+        QString status_str = vmap.value("status").toString();
+
+        if( status_str == "leave")
+            rcw->showPlayerLeaveMsg();
+    }
 	else if (type == "chess_init")
 	{
 		create_chess_window(peer_id.toStdString(), 1);

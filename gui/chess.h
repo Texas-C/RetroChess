@@ -27,6 +27,9 @@ private:
 	std::string p1name;
 	std::string p2name;
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 public:
 	std::string mPeerId;
 	explicit RetroChessWindow(std::string peerid, int player = 0, QWidget *parent = 0);
@@ -63,6 +66,7 @@ public:
 	int check(Tile *temp);
 
     int resultJudge();	// judge result (slow method)
+    void showPlayerLeaveMsg();	// show player leave message
 };
 
 

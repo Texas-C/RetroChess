@@ -153,6 +153,16 @@ void p3RetroChess::chess_click(std::string peer_id, int col, int row, int count)
 
 }
 
+void p3RetroChess::player_leave(std::string peer_id)
+{
+    QVariantMap map;
+    map.insert("type", "player_status_message");
+    map.insert("player_status","leave");
+
+    RsPeerId peerID = RsPeerId(peer_id);
+    qvm_msg_peer(peerID, map);
+}
+
 bool p3RetroChess::hasInviteFrom(RsPeerId peerID)
 {
 	return invitesFrom.find(peerID)!=invitesFrom.end();
