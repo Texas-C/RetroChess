@@ -80,7 +80,7 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
     {
         // show player left message
         RetroChessWindow* rcw = activeGames.value(peer_id.toStdString());
-        QString status_str = vmap.value("status").toString();
+        QString status_str = vmap.value("player_status").toString();
 
         if( status_str == "leave")
             rcw->showPlayerLeaveMsg();
