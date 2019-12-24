@@ -23,3 +23,13 @@ Example:
 			int m_value;
 			PropertyObject *m_property_p;
 	};
+
+	class CustomWidget : public QWidget
+	{
+		Q_OBJECT
+		public:
+
+			CustomWidget( QObject *parent = nullptr);
+
+			void init();
+	};
