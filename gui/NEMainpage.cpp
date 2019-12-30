@@ -16,6 +16,9 @@
 
 #include "gui/chat/ChatDialog.h"
 
+#include "gui/common/AvatarDefs.h"
+// COLUMN_NAME_INDEX shoule equal to FriendSelectionWidget.cpp's COLUMN_NAME
+#define COLUMN_NAME_INDEX 0
 
 NEMainpage::NEMainpage(QWidget *parent, RetroChessNotify *notify) :
 	MainPage(parent),
@@ -191,6 +194,10 @@ void NEMainpage::on_filterPeersButton_clicked()
 		RsPeerServiceInfo remote_service_perms ;
 		RsPeerId id = *it;
 
+        // get friend 's avatar
+        QPixmap friend_avatar;
+        AvatarDefs::getAvatarFromSslId( id, friend_avatar);
+
 		rsServiceControl->getServicesAllowed (*it, local_service_perms) ;
 		rsServiceControl->getServicesProvided(*it,remote_service_perms) ;
 
@@ -203,11 +210,14 @@ void NEMainpage::on_filterPeersButton_clicked()
 		std::cout << serviceinfos.toStdString() << "\n";
 		//if (allowed){
 		QList<QTreeWidgetItem*> items;
+
 		ui->friendSelectionWidget->itemsFromId(FriendSelectionWidget::IDTYPE_SSL,id.toStdString(),items);
 
 		std::cout << items.size() << "\n";
 		if (items.size())
 		{
+            // setup ICON COLUMN_NAME=0
+            items.first()->setIcon( COLUMN_NAME_INDEX, QIcon(friend_avatar));
 			QTreeWidgetItem* item = items.first();
 			item->setHidden(!allowed);
 		}
