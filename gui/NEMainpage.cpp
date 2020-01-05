@@ -55,6 +55,7 @@ void NEMainpage::chessStart(const RsPeerId &peer_id)
 	create_chess_window(peer_id.toStdString(), 0);
 }
 
+// decode received message here
 void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
 {
 	QJsonDocument jdoc = QJsonDocument::fromJson(str.toUtf8());
@@ -89,9 +90,9 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
             rcw->showPlayerLeaveMsg();
     }
 	else if (type == "chess_init")
-	{
-		create_chess_window(peer_id.toStdString(), 1);
-	}
+    {
+        create_chess_window(peer_id.toStdString(), 1);
+    }
 	else if (type == "chess_invite")
 	{
 		ChatDialog::chatFriend(ChatId(peer_id));
@@ -140,23 +141,23 @@ void NEMainpage::create_chess_window(std::string peer_id, int player_id)
 	ui->active_games->addItem(QString::fromStdString(peer_id));
 }
 
-/*
-void NEMainpage::on_playButton_clicked()
+// just for test (still not good, cause native player don't know whether friend accept)
+void NEMainpage::on_inviteButton_clicked()
 {
 	//get peer
 	FriendSelectionWidget::IdType idType;
 	std::string fid = ui->friendSelectionWidget->selectedId(idType);
 	//make_board();
-	create_chess_window(fid, 0);
+    create_chess_window(fid, 0);
 
 	QVariantMap map;
-	map.insert("type", "chess_init");
+    //map.insert("type", "chess_init");
+    map.insert("type", "chess_invite");
 
 	rsRetroChess->qvm_msg_peer(RsPeerId(fid),map);
 
 	std::cout << fid;
 }
-*/
 
 void NEMainpage::on_filterPeersButton_clicked()
 {
@@ -216,8 +217,9 @@ void NEMainpage::on_filterPeersButton_clicked()
 		std::cout << items.size() << "\n";
 		if (items.size())
 		{
-            // setup ICON COLUMN_NAME=0
+            // setup ICON COLUMN_NAME=0 (add avatar)
             items.first()->setIcon( COLUMN_NAME_INDEX, QIcon(friend_avatar));
+
 			QTreeWidgetItem* item = items.first();
 			item->setHidden(!allowed);
 		}

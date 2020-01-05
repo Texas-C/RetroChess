@@ -41,8 +41,8 @@ private slots:
 
 	void on_broadcastButton_clicked();
 
-    //--- removed playbutton
-    //void on_playButton_clicked();
+    //--- test invite button, try to invite p2p friend
+    void on_inviteButton_clicked();
 
 	void on_filterPeersButton_clicked();
 
