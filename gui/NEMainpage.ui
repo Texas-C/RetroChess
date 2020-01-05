@@ -141,6 +141,9 @@
            </item>
            <item row="1" column="2">
             <widget class="QPushButton" name="inviteButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Invite play</string>
              </property>
@@ -159,17 +162,20 @@
              </property>
             </spacer>
            </item>
-           <item row="0" column="0" colspan="3">
-            <widget class="FriendSelectionWidget" name="friendSelectionWidget" native="true">
-             <property name="contextMenuPolicy">
-              <enum>Qt::CustomContextMenu</enum>
+           <item row="1" column="3">
+            <widget class="QCheckBox" name="check_enableBeInvited">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Enable to be invited</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="3">
-            <widget class="QCheckBox" name="check_enableBeInvited">
-             <property name="text">
-              <string>Enable to be invited</string>
+           <item row="0" column="0" colspan="4">
+            <widget class="FriendSelectionWidget" name="friendSelectionWidget" native="true">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
              </property>
             </widget>
            </item>
