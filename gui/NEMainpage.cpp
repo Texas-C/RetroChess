@@ -148,7 +148,7 @@ void NEMainpage::on_inviteButton_clicked()
 	FriendSelectionWidget::IdType idType;
 	std::string fid = ui->friendSelectionWidget->selectedId(idType);
 	//make_board();
-    create_chess_window(fid, 0);
+	create_chess_window(fid, 1);
 
 	QVariantMap map;
     //map.insert("type", "chess_init");
@@ -224,9 +224,6 @@ void NEMainpage::on_filterPeersButton_clicked()
 			item->setHidden(!allowed);
 		}
 	}
-
-
-	//
 }
 
 void NEMainpage::setupMenuActions()
