@@ -83,11 +83,14 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
     else if(type == "player_status_message")
     {
         // show player left message
-        RetroChessWindow* rcw = activeGames.value(peer_id.toStdString());
-        QString status_str = vmap.value("player_status").toString();
+		if( activeGames.find(peer_id.toStdString()) != activeGames.end())	// check has active games
+		{
+			RetroChessWindow* rcw = activeGames.value(peer_id.toStdString());
+			QString status_str = vmap.value("player_status").toString();
 
-        if( status_str == "leave")
-            rcw->showPlayerLeaveMsg();
+			if( status_str == "leave")
+				rcw->showPlayerLeaveMsg();
+		}
     }
 	else if (type == "chess_init")
     {
@@ -95,9 +98,17 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
     }
 	else if (type == "chess_invite")
 	{
-		ChatDialog::chatFriend(ChatId(peer_id));
-		rsRetroChess->gotInvite(peer_id);
-		mNotify->notifyChessInvite(peer_id);
+		// enable to be invite
+		if( this->ui->check_enableBeInvited->isChecked() )
+		{
+			ChatDialog::chatFriend(ChatId(peer_id));
+			rsRetroChess->gotInvite(peer_id);
+			mNotify->notifyChessInvite(peer_id);
+		}
+		else	// refuse all invites
+		{
+			//mNotify->notifyChessInvite(peer_id);
+		}
 	}
 	else if (type == "chess_accept")
 	{
@@ -107,6 +118,7 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
 			rsRetroChess->acceptedInvite(peer_id);
 		}
 	}
+	// else if( type == "chess_reject") // other player rejected your invite (need to be finish)
 	else
 	{
 		QString output = QTime::currentTime().toString() +" ";
@@ -116,6 +128,7 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
 		ui->listWidget->addItem(output);
 	}
 
+	/*
 	{
 		QString output = QTime::currentTime().toString() +" ";
 		output+= QString::fromStdString(rsPeers->getPeerName(peer_id));
@@ -123,6 +136,7 @@ void NEMainpage::NeMsgArrived(const RsPeerId &peer_id, QString str)
 		output+=str;
 		ui->netLogWidget->addItem(output);
 	}
+	*/
 }
 
 void NEMainpage::on_broadcastButton_clicked()
