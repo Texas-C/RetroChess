@@ -146,7 +146,7 @@ void Tile::validate(int c)
 
         for(i=0; i<(chess_window_p)->max; i++)
         {
-            // next postion is valiad
+            // next postion is valiad, then move
             if(tile_p->tileNum==(chess_window_p)->texp[i])
             {
                 (chess_window_p)->click1->piece=0;
@@ -176,6 +176,16 @@ void Tile::validate(int c)
 
                 (chess_window_p)->turn=((chess_window_p)->turn+1)%2;
                 (chess_window_p)->count=0;
+
+                // ---- record last move
+                (chess_window_p)->clearLastMove();
+
+                (chess_window_p)->recordLastMove((chess_window_p)->click1->tileNum);
+                (chess_window_p)->recordLastMove(tile_p->tileNum);
+                (chess_window_p)->drawLastMove();
+
+                (chess_window_p)->playerTurnNotice();
+                // ----
 
                 break;
             }

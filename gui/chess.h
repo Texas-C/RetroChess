@@ -8,6 +8,8 @@
 
 #include "retroshare/rspeers.h"
 
+#include <QQueue>
+
 namespace Ui
 {
 class RetroChessWindow;
@@ -62,11 +64,18 @@ public:
 	int validateHorse(Tile *temp);
 	int validateRook(Tile *temp);
 	int validatePawn(Tile *temp);
+
 	void orange();	// draw orange background represent avaiable movement of tiles
 	int check(Tile *temp);
 
+    QQueue<int> m_last_move_que;	// record last move numbers
+    void recordLastMove( int tile_num );
+    void drawLastMove();
+    void clearLastMove();
+
     int resultJudge();	// judge result (slow method)
     void showPlayerLeaveMsg();	// show player leave message
+    void playerTurnNotice();
 };
 
 

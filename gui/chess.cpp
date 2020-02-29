@@ -58,6 +58,8 @@ RetroChessWindow::RetroChessWindow(std::string peerid, int player, QWidget *pare
 
 	this->initAccessories();
 	this->initChessBoard();
+
+    this->playerTurnNotice();
 }
 
 RetroChessWindow::~RetroChessWindow()
@@ -121,7 +123,8 @@ void RetroChessWindow::validate_tile(int row, int col, int c)
 {
 	Tile *clickedtile = tile[col][row];
 	//if (!click1)click1=clickedtile;
-	clickedtile->validate(++count);
+
+    clickedtile->validate(++count);
 }
 
 void RetroChessWindow::initChessBoard()
@@ -890,10 +893,36 @@ int RetroChessWindow::check(Tile *tile_p)
 
 void RetroChessWindow::orange()
 {
-	int i,n;
-
-	for(i=0; i<max; i++)
+    for(int i = 0; i < max; ++i)
 		tile[texp[i]/8][texp[i]%8]->setStyleSheet("QLabel {background-color: orange;}");
+}
+
+void RetroChessWindow::recordLastMove(int tile_num)
+{
+    this->m_last_move_que.push_back(tile_num);
+}
+
+void RetroChessWindow::drawLastMove()
+{
+    // draw last move
+    for( QQueue<int>::iterator it = this->m_last_move_que.begin();
+         it != this->m_last_move_que.end();
+         ++it)
+    {
+        int tile_num = *it;
+        tile[ tile_num / 8][ tile_num % 8]->setStyleSheet("QLabel {background-color: lightGray;}");
+    }
+}
+
+void RetroChessWindow::clearLastMove()
+{
+    while( !this->m_last_move_que.empty())
+    {
+        int tile_num = this->m_last_move_que.front();
+        this->m_last_move_que.pop_front();
+
+        tile[ tile_num / 8][ tile_num % 8]->tileDisplay();	// revoery tile's background color
+    }	// clear the last move queue
 }
 
 // judge result (slow method)
@@ -921,7 +950,6 @@ int RetroChessWindow::resultJudge()
 
     if ( flag_white_king_alive == false)
     {
-
         m_ui->m_player1_result->setText("Win");
         m_ui->m_player1_result->setStyleSheet("QLabel {color: green;}");
 
@@ -955,4 +983,30 @@ void RetroChessWindow::showPlayerLeaveMsg()
     status_msg += " has left";
     m_ui->m_status_bar->setText( status_msg );
     m_ui->m_status_bar->setVisible(true);
+}
+
+void RetroChessWindow::playerTurnNotice()
+{
+    if( this->turn )
+    {
+        m_ui->m_player1_result->setText("Wait...");
+        m_ui->m_player1_result->setStyleSheet("QLabel {color: gray;}");
+
+        m_ui->m_player2_result->setText("Turn");
+        m_ui->m_player2_result->setStyleSheet("QLabel {color: green;}");
+
+        m_ui->m_player1_result->setVisible(true);
+        m_ui->m_player2_result->setVisible(true);
+    }
+    else
+    {
+        m_ui->m_player1_result->setText("Turn");
+        m_ui->m_player1_result->setStyleSheet("QLabel {color: green;}");
+
+        m_ui->m_player2_result->setText("Wait...");
+        m_ui->m_player2_result->setStyleSheet("QLabel {color: gray;}");
+
+        m_ui->m_player1_result->setVisible(true);
+        m_ui->m_player2_result->setVisible(true);
+    }
 }
