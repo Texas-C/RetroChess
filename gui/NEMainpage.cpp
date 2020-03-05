@@ -32,6 +32,9 @@ NEMainpage::NEMainpage(QWidget *parent, RetroChessNotify *notify) :
 	connect(mNotify, SIGNAL(chessStart(RsPeerId)), this, SLOT(chessStart(RsPeerId)));
 	connect(ui->friendSelectionWidget, SIGNAL(itemSelectionChanged()), this, SLOT(friendSelectionChanged()));
 
+    // enable/disable the invite button
+    connect(ui->friendSelectionWidget, SIGNAL(itemSelectionChanged()), this, SLOT(enable_inviteButton()));
+
 	ui->friendSelectionWidget->start();
 	ui->friendSelectionWidget->setModus(FriendSelectionWidget::MODUS_SINGLE);
 	ui->friendSelectionWidget->setShowType(FriendSelectionWidget::SHOW_SSL);
@@ -155,22 +158,43 @@ void NEMainpage::create_chess_window(std::string peer_id, int player_id)
 	ui->active_games->addItem(QString::fromStdString(peer_id));
 }
 
+// enable the invite button when selected a friend
+void NEMainpage::enable_inviteButton()
+{
+    // get peer
+    FriendSelectionWidget::IdType idType;
+    std::string fid = ui->friendSelectionWidget->selectedId(idType);
+
+    if( fid == "")	// haven't selected any friend, disable the invite button
+        ui->inviteButton->setEnabled(false);
+    else
+        ui->inviteButton->setEnabled(true);
+}
+
 // just for test (still not good, cause native player don't know whether friend accept)
 void NEMainpage::on_inviteButton_clicked()
 {
 	//get peer
 	FriendSelectionWidget::IdType idType;
 	std::string fid = ui->friendSelectionWidget->selectedId(idType);
-	//make_board();
-	create_chess_window(fid, 1);
 
-	QVariantMap map;
-    //map.insert("type", "chess_init");
-    map.insert("type", "chess_invite");
+    if( fid != "")	// selected a friend
+    {
+        //make_board();
+        create_chess_window(fid, 1);
 
-	rsRetroChess->qvm_msg_peer(RsPeerId(fid),map);
+        QVariantMap map;
+        //map.insert("type", "chess_init");
+        map.insert("type", "chess_invite");
 
-	std::cout << fid;
+        rsRetroChess->qvm_msg_peer(RsPeerId(fid),map);
+
+        std::cout << fid;
+    }
+    else
+    {
+        std::cout << "please select a friend";
+    }
 }
 
 void NEMainpage::on_filterPeersButton_clicked()

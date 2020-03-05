@@ -182,7 +182,6 @@ void Tile::validate(int c)
 
                 (chess_window_p)->recordLastMove((chess_window_p)->click1->tileNum);
                 (chess_window_p)->recordLastMove(tile_p->tileNum);
-                (chess_window_p)->drawLastMove();
 
                 (chess_window_p)->playerTurnNotice();
                 // ----
@@ -193,6 +192,7 @@ void Tile::validate(int c)
             else
                 (chess_window_p)->count=1;
         }
+        (chess_window_p)->drawLastMove();
     }
 
     (chess_window_p)->m_flag_finished = (chess_window_p)->resultJudge();

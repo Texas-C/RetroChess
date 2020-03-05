@@ -42,9 +42,12 @@ private slots:
 	void on_broadcastButton_clicked();
 
     //--- test invite button, try to invite p2p friend
+    void enable_inviteButton();	// enable the invite button when selected a friend
+
     void on_inviteButton_clicked();
 
 	void on_filterPeersButton_clicked();
+
 
 private:
 	Ui::NEMainpage *ui;
